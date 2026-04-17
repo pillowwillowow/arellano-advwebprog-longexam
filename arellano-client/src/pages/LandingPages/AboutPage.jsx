@@ -1,5 +1,9 @@
 import Button from '../../components/Button';
-import logo from '../../assets/img/nubdexchange_logo.png';
+import stickerv1 from '../../assets/img/nu_classic_v1_sticker.png';
+import stickerv2 from '../../assets/img/nu_classic_v2_sticker.png';
+import stickerv3 from '../../assets/img/nu_volleyball_sticker.png';
+import baller from '../../assets/img/nu_lets-go_baller.png';
+import banner from '../../assets/img/media.jpg';
 
 const AboutPage = () => {
   return (
@@ -8,7 +12,7 @@ const AboutPage = () => {
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div className="rounded-3xl border-2 border-dashed border-zinc-300 bg-zinc-100 p-6">
             <div className="flex min-h-72 items-center justify-center rounded-[1.25rem] bg-zinc-200">
-              <img src={logo} alt="BulldogEx" className="h-32 w-32 rounded-full border-2 border-zinc-900 bg-zinc-50 object-contain" />
+              <img src={banner} alt="banner" className="h-50 w-50 rounded-full border-2 border-zinc-900 bg-zinc-50 object-contain" />
             </div>
           </div>
 
@@ -107,15 +111,16 @@ const AboutPage = () => {
             </p>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="flex aspect-square items-center justify-center rounded-[1.25rem] bg-zinc-200">
-                <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+                <img src={stickerv1} alt="stickerv1" className="h-full w-full object-contain rounded-xl"/>
               </div>
               <div className="flex aspect-square items-center justify-center rounded-[1.25rem] bg-zinc-200">
-                <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+                <img src={stickerv2} alt="stickerv2" className="h-full w-full object-contain rounded-xl"/>
               </div>
               <div className="flex aspect-square items-center justify-center rounded-[1.25rem] bg-zinc-200">
-                <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+                <img src={stickerv3} alt="stickerv3" className="h-full w-full object-contain rounded-xl"/>
               </div>
               <div className="flex aspect-square items-center justify-center rounded-[1.25rem] bg-zinc-200">
+                <img src={baller} alt="baller" className="h-full w-full object-contain rounded-xl"/>
                 <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
               </div>
             </div>

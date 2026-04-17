@@ -1,5 +1,8 @@
 import Button from '../../components/Button';
 import banner from '../../assets/img/nu_bulldogex_banner.jpg';
+import keychain from '../../assets/img/keychain.jpg';
+import sweater from '../../assets/img/sweater.jpg';
+import shirt from '../../assets/img/shirt.jpg';
 
 const HomePage = () => {
     return (
@@ -83,33 +86,33 @@ const HomePage = () => {
                 <div className="grid gap-4 md:grid-cols-3">
                     <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
                         <div className="flex aspect-4/3 items-center justify-center rounded-[1.25rem] bg-zinc-200">
-                            <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+                        <img src={keychain} alt="keychain" className="h-full w-full object-contain rounded-xl  bg-white"/>
                         </div>
                         <h3 className="mt-4 text-lg font-semibold text-zinc-900">Daily Essentials</h3>
                         <p className="mt-3 text-sm leading-6 text-zinc-600">
-                            Bags, tumblers, lanyards, and items used every school day.
+                           Keychains, lanyards, and small everyday items for daily campus use.
                         </p>
                         <Button to="/products" className="mt-4" variant="primary">View Products</Button>
                     </article>
 
                     <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
                         <div className="flex aspect-4/3 items-center justify-center rounded-[1.25rem] bg-zinc-200">
-                            <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+                        <img src={sweater} alt="sweater" className="h-full w-full object-contain rounded-xl  bg-white"/>
                         </div>
-                        <h3 className="mt-4 text-lg font-semibold text-zinc-900">Study Supplies</h3>
+                        <h3 className="mt-4 text-lg font-semibold text-zinc-900">Outerwear</h3>
                         <p className="mt-3 text-sm leading-6 text-zinc-600">
-                            Notes, desk tools, and study kits for class and review weeks.
+                            Sweaters and jackets designed for comfort during cooler days on campus.
                         </p>
-                        <Button to="/products" className="mt-4" variant="primary">Shop Supplies</Button>
+                        <Button to="/products" className="mt-4" variant="primary"> Campus Apparel</Button>
                     </article>
 
                     <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
                         <div className="flex aspect-4/3 items-center justify-center rounded-[1.25rem] bg-zinc-200">
-                            <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+                        <img src={shirt} alt="shirt" className="h-full w-full object-contain rounded-xl bg-white"/>
                         </div>
                         <h3 className="mt-4 text-lg font-semibold text-zinc-900">Campus Apparel</h3>
                         <p className="mt-3 text-sm leading-6 text-zinc-600">
-                            Comfortable pieces for class days, commute days, and weekends.
+                            Comfortable shirts and everyday wear for class, commute, and weekends.
                         </p>
                         <Button to="/products" className="mt-4" variant="primary">
                             View Apparel
