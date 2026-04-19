@@ -6,7 +6,7 @@ import shirt from '../../assets/img/shirt.jpg';
 
 const HomePage = () => {
     return (
-        <div className="flex w-full flex-col gap-6">
+        <div className="flex w-full flex-col gap-6 bg-violet-300">
             <section className="relative min-h-[28rem] overflow-hidden border-y-2 border-zinc-900 bg-zinc-900 px-4 py-10 sm:px-6 lg:px-8">
                 <img
                     src={banner}
@@ -17,7 +17,7 @@ const HomePage = () => {
 
                 <div className="relative z-10 flex min-h-[22rem] items-start justify-end text-right sm:min-h-[24rem]">
                     <div className="max-w-xl">
-                        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-200">
+                        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-200 font-roboto">
                             Campus Marketplace
                         </p>
                         <h1 className="text-3xl font-bold leading-tight text-zinc-50 sm:text-4xl">
@@ -48,25 +48,25 @@ const HomePage = () => {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-5">
+                    <div className="rounded-3xl border-2 border-zinc-900 bg-blue-200 p-5">
                         <p className="text-2xl font-bold text-zinc-900">08</p>
                         <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
                             Products
                         </p>
                     </div>
-                    <div className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-5">
+                    <div className="rounded-3xl border-2 border-zinc-900 bg-blue-200 p-5">
                         <p className="text-2xl font-bold text-zinc-900">06</p>
                         <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
                             Categories
                         </p>
                     </div>
-                    <div className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-5">
+                    <div className="rounded-3xl border-2 border-zinc-900 bg-blue-200 p-5">
                         <p className="text-2xl font-bold text-zinc-900">24</p>
                         <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
                             Orders
                         </p>
                     </div>
-                    <div className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-5">
+                    <div className="rounded-3xl border-2 border-zinc-900 bg-blue-200 p-5">
                         <p className="text-2xl font-bold text-zinc-900">03</p>
                         <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
                             Pickup Slots
@@ -80,7 +80,7 @@ const HomePage = () => {
                     <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
                         Shop Sections
                     </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-zinc-900">Simple store cards</h2>
+                    <h2 className="mt-2 text-2xl font-semibold text-zinc-900">Merch & Other Essentials</h2>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-3">
@@ -90,7 +90,7 @@ const HomePage = () => {
                         </div>
                         <h3 className="mt-4 text-lg font-semibold text-zinc-900">Daily Essentials</h3>
                         <p className="mt-3 text-sm leading-6 text-zinc-600">
-                           Keychains, lanyards, and small everyday items for daily campus use.
+                           Keychains, lanyards, and everyday campus accessories designed for convenience and daily use.
                         </p>
                         <Button to="/products" className="mt-4" variant="primary">View Products</Button>
                     </article>
@@ -101,7 +101,7 @@ const HomePage = () => {
                         </div>
                         <h3 className="mt-4 text-lg font-semibold text-zinc-900">Outerwear</h3>
                         <p className="mt-3 text-sm leading-6 text-zinc-600">
-                            Sweaters and jackets designed for comfort during cooler days on campus.
+                            Sweaters and jackets built for comfort and warmth during cooler days around campus.
                         </p>
                         <Button to="/products" className="mt-4" variant="primary"> Campus Apparel</Button>
                     </article>
@@ -112,7 +112,7 @@ const HomePage = () => {
                         </div>
                         <h3 className="mt-4 text-lg font-semibold text-zinc-900">Campus Apparel</h3>
                         <p className="mt-3 text-sm leading-6 text-zinc-600">
-                            Comfortable shirts and everyday wear for class, commute, and weekends.
+                            Comfortable shirts and casual wear made for class, commuting, and everyday campus life.
                         </p>
                         <Button to="/products" className="mt-4" variant="primary">
                             View Apparel

@@ -2,15 +2,13 @@ import Button from './Button';
 
 const ProductCard = ({ product, index }) => {
   return (
-    <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-      
-    {/*  Enhancement 1: Develop an original product catalog with appropriate product names, descriptions, prices, categories, and images. */ }
-      <div className="aspect-4/3 overflow-hidden rounded-[1.25rem] bg-zinc-200 flex items-center justify-center">
+    <article className="flex h-full flex-col rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
+      <div className="flex aspect-4/3 items-center justify-center overflow-hidden rounded-[1.25rem] bg-zinc-200">
         {product.image ? (
           <img
             src={product.image}
             alt={product.title}
-            className="w-full h-full object-contain bg-white"
+            className="h-full w-full bg-white object-contain"
           />
         ) : (
           <div className="flex h-16 w-16 items-center justify-center border-2 border-zinc-300 bg-zinc-100 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
@@ -35,8 +33,12 @@ const ProductCard = ({ product, index }) => {
         {product.content[0].substring(0, 120)}...
       </p>
 
-      <Button to={`/products/${product.name}`} className="mt-4">
-        View Product
+      <Button
+      to={`/products/${product.name}`}
+      className="mt-auto pt-2 self-start"
+      variant="primary"
+      >
+      View Product
       </Button>
     </article>
   );

@@ -1,50 +1,38 @@
 import Button from '../components/Button';
-
+import notfoundBg from '../assets/img/bulldog.jpg'; 
 const NotFoundPage = () => {
   return (
-    <div className="flex w-full flex-col gap-6">
-      <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <div className="max-w-3xl">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-            Error
-          </p>
-          <h1 className="text-6xl font-bold leading-tight text-zinc-900 sm:text-7xl">
-            404
-          </h1>
-          <p className="mt-4 text-lg leading-7 text-zinc-600">
-            Page not found. The page you're looking for doesn't exist or has been moved.
-          </p>
-          <div className="mt-6 flex gap-3">
-            <Button to="/">Back Home</Button>
-            <Button to="/products">View Products</Button>
-          </div>
-        </div>
-      </section>
+    <div
+      className="relative flex min-h-screen w-full items-center justify-center bg-cover bg-center px-4"
+      style={{ backgroundImage: `url(${notfoundBg})` }}
+    >
+      <div className="absolute inset-0 bg-black/40 overlay blur-md scale-100" />
 
-      <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <div className="max-w-3xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-            Quick Links
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold text-zinc-900">Explore the site</h2>
-          
-          <div className="mt-6 space-y-3">
-            <div className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-              <h3 className="font-semibold text-zinc-900">Home</h3>
-              <p className="mt-1 text-sm text-zinc-600">Return to the homepage</p>
-              <Button to="/" className="mt-3">Go Home</Button>
-            </div>
-            
-            <div className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-              <h3 className="font-semibold text-zinc-900">Products</h3>
-              <p className="mt-1 text-sm text-zinc-600">Browse all featured store items</p>
-              <Button to="/products" className="mt-3">View Products</Button>
-            </div>
-          </div>
+      {/* Enhancement 2: Create a customized footer and notfoundpage that aligns with the website theme and ensure that all links function correctly. */}
+      <div className="relative z-10 text-center text-white max-w-xl">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-100">
+          Page not found
+        </p>
+
+        <h1 className="text-6xl font-bold sm:text-7xl font-unbounded">
+          404
+        </h1>
+
+        <p className="mt-4 text-base sm:text-lg text-zinc-100">
+          The page you’re looking for doesn’t exist or has been moved.
+        </p>
+
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Button to="/" variant="primary">
+            Back Home
+          </Button>
+          <Button to="/products" variant="secondary">
+            View Products
+          </Button>
         </div>
-      </section>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotFoundPage
+export default NotFoundPage;

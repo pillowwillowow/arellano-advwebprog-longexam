@@ -3,6 +3,11 @@
 @layer base {
   body {
     @apply bg-zinc-100 text-zinc-900 antialiased;
+    font-family: 'Roboto', sans-serif; 
+  }
+
+  .font-unbounded {
+  font-family: 'Unbounded', sans-serif;
   }
 
   #root {

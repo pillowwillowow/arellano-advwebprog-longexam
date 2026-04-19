@@ -85,7 +85,7 @@ const SignUpPage = () => {
         </div>
       </form>
 
-      <div className="mt-8 border-t border-zinc-200 pt-6 text-sm text-zinc-600">
+      <div className="mt-8 border-t border-violet-800 pt-6 text-sm text-zinc-600">
         Already have an account?{' '}
         <Link to="/auth/signin" className="font-semibold text-zinc-900 transition hover:text-zinc-600">
           Log In

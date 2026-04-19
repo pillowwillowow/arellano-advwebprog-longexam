@@ -8,7 +8,7 @@ function ProductPage() {
 
   if (!product) {
     return (
-      <div className="flex w-full flex-col gap-6">
+      <div className="flex w-full flex-col gap-6 bg-violet-300">
         <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <h1 className="text-3xl font-bold text-zinc-900">Product not found</h1>
@@ -20,7 +20,7 @@ function ProductPage() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-6 bg-violet-300">
       
       <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="max-w-3xl">
