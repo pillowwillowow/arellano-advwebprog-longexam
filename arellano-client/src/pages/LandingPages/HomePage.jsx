@@ -24,8 +24,7 @@ const HomePage = () => {
                             Welcome to BulldogEx Shop
                         </h1>
                         <p className="mt-4 text-sm leading-7 text-zinc-100 sm:text-base">
-                            Explore campus uniforms, student essentials, and school merch in one
-                            quick storefront.
+                            Scroll through our selection of campus essentials, from practical items to stylish apparel, all designed to make your college life easier and more enjoyable.
                         </p>
                         <div className="mt-6 flex flex-wrap justify-end gap-3">
                             <Button to="/products">

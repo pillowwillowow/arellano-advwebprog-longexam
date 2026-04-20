@@ -13,7 +13,7 @@ const ProductListPage = () => {
           Shop campus essentials in just a click away!
         </h1>
         <p className="mt-4 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">
-          Browse practical items for class, study, commute, and everyday campus routines.
+          Find everything you need for campus life, from stationery to snacks, all in one place. Browse our curated selection of products designed to make your college experience easier and more enjoyable.
         </p>
         <div className="mt-6">
           <Button to="/">Back Home</Button>
