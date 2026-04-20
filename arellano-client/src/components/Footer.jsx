@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="border-t-2 border-zinc-900 bg-violet-200">
+    <footer className="border-t-2 border-zinc-900 bg-violet-300">
       <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
 
         {/* Enhancement 2: Create a customized footer and notfoundpage that aligns with the website theme and ensure that all links function correctly. */}
