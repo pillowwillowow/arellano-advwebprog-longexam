@@ -1,118 +1,93 @@
-## Server and Client Integration
+## Server-Client Integration
 
-The BulldogEx Shop uses a client-server architecture where the frontend and backend are developed separately but communicate through REST API requests. The client side is developed using React and Vite, while the server side is developed using Node.js and Express. The React application is responsible for displaying the user interface and handling user interactions, while the Express server handles application logic, authentication, authorization, validation, and communication with the MongoDB database.
+The project uses a client-server architecture where the React frontend communicates with the Express backend through REST API requests. The frontend is responsible for displaying the interface and handling user interactions, while the backend handles the application logic, authentication, authorization, and database operations.
 
-The frontend communicates with the backend using the built-in JavaScript Fetch API. Instead of placing API requests directly inside every React page, the project uses separate service files such as `UserService.js`, `ProductService.js`, `CategoryService.js`, `CartService.js`, `OrderService.js`, and `ReviewService.js`. Each service is responsible for communicating with its corresponding REST API endpoint. For example, `ProductService.js` communicates with `/api/v1/product`, while `OrderService.js` communicates with `/api/order`. This allows the React pages to focus on displaying data and handling user interactions while the service files handle communication with the backend.
+To connect the client and server, the project uses the built-in JavaScript Fetch API. Instead of placing API requests directly inside every page, the requests are organized into separate service files such as `UserService.js`, `ProductService.js`, `CategoryService.js`, `CartService.js`, `OrderService.js`, and `ReviewService.js`. These service files send requests to the corresponding Express API routes and return the response back to the React pages.
 
-When a request is sent from the client, it is received by an Express route on the server. The route forwards the request to the appropriate controller, which performs the required application logic and accesses MongoDB using a Mongoose model. The result is then returned to the React application as a JSON response. The general communication flow of the project is `React Page → Service File → Fetch API → Express Route → Controller → Mongoose Model → MongoDB`. After the database operation is completed, the response is returned through the same layers until it is displayed by the React frontend.
+For example, when the Products page loads, the frontend calls a function from `ProductService.js`. The service sends a request to the product API endpoint, the backend processes it through the product route and controller, and the Product model retrieves the required records from MongoDB. The result is then returned to the frontend as JSON and displayed on the page.
 
-The project also integrates JWT authentication between the client and server. When a user successfully logs in, the Express server generates a JSON Web Token containing the user's ID and role. The React application stores the token and user information in local storage. When the frontend accesses a protected API endpoint, the corresponding service retrieves the token and sends it to the backend through the `Authorization` header using the Bearer token format. The backend uses authentication middleware to verify the token before allowing the request to continue.
+The project also uses JWT authentication for protected requests. After a successful login, the backend generates a JSON Web Token that contains the user's ID and role. The frontend stores this token and sends it in the `Authorization` header when accessing protected API endpoints. The backend verifies the token before allowing the request to continue. Role-based authorization is also applied so that customers and administrators have different levels of access. For example, an administrator can access user management and update order statuses, while a customer can access their own profile, cart, orders, and reviews.
 
-Role-based authorization is also implemented on protected server endpoints. The authentication middleware first checks whether the request contains a valid JWT, while role verification middleware determines whether the authenticated user has permission to access a particular resource. For example, customers may view products, manage their cart, create orders, submit reviews, and access their own profile, while administrator accounts can access protected administrative operations such as viewing all users, editing users, creating or updating products, managing customer orders, and editing reviews. A request without a token returns `401 Unauthorized`, while a valid user without the required role receives `403 Forbidden`. A properly authenticated and authorized request is allowed to continue to the controller.
+The general flow of the project is:
 
-During development, the React frontend and Express backend run independently. The frontend is started using Vite, while the backend runs through the Express server on port `8000`. CORS is used to allow communication between the client and server when they are running on different origins or ports. This setup demonstrates full-stack integration because information displayed and modified by the React frontend is processed by the Express backend and stored in MongoDB Atlas rather than relying only on static or mock data.
+`React Page → Service File → Fetch API → Express Route → Middleware → Controller → Mongoose Model → MongoDB`
+
+This setup allows the frontend and backend to remain separated while still working together as one full-stack application.
 
 
 ## Libraries and Packages Used
 
-The client side uses React as the main library for developing the user interface. React allows the application to be divided into reusable components such as the navigation bar, footer, buttons, product cards, and product lists. React hooks such as `useState` are used to manage component data and form values, while `useEffect` is used to perform operations such as retrieving information from the backend when a page is loaded.
+The frontend uses React as the main library for building the user interface. React components are used to separate the interface into reusable parts, while hooks such as `useState` and `useEffect` are used to manage form values, page data, and API requests. React Router DOM is used for navigation between pages and for protected routes based on the user's login status and role.
 
-React Router DOM is used to manage navigation between the different pages of the application. It is also used to implement protected frontend routes. The `ProtectedRoute` logic checks whether a user has a stored authentication token and account information before allowing access to restricted pages. It also checks the role of the logged-in user so that customer and administrator pages can be separated.
+Vite is used as the development and build tool for the React application. Tailwind CSS is used for styling the interface, including layouts, forms, buttons, cards, responsive design, spacing, and colors. Lucide React is used to provide icons throughout the interface, such as icons for users, products, orders, shopping carts, profiles, and password visibility.
 
-Vite is used as the frontend development and build tool. It provides the development server used to run the React application and automatically updates the application when changes are made to the source files. Tailwind CSS is used to style the user interface, including page layouts, forms, buttons, cards, responsive grids, spacing, typography, colors, and status indicators. Lucide React is used to provide reusable icons throughout the interface, including icons for users, products, orders, shopping carts, account information, security, and password visibility.
+The project does not use Axios. Instead, it uses the browser's built-in Fetch API to send GET, POST, PUT, and DELETE requests from the client to the backend.
 
-The project does not use Axios for HTTP communication. Instead, it uses the browser's built-in Fetch API. Fetch is used inside the frontend service files to send GET, POST, PUT, and DELETE requests to the Express REST API. For protected requests, the JWT stored after login is included in the `Authorization` request header using the `Bearer` format.
-
-The server side uses Node.js as the JavaScript runtime environment and Express as the backend framework. Express is used to create REST API endpoints for users, products, categories, carts, orders, and reviews. It is also used to register middleware and connect API routes to their corresponding controller functions.
-
-Mongoose is used as the Object Data Modeling library between Express and MongoDB. The project uses Mongoose models to define the structure of users, products, categories, carts, orders, and reviews. Mongoose is also responsible for database querying, document creation and updates, validation, object references, and population of related records. MongoDB Atlas is used as the cloud database where application information is stored.
-
-The `bcryptjs` package is used for password security. User passwords are hashed before being stored in MongoDB, while `bcrypt.compare()` is used during login to determine whether the password entered by the user matches the stored hash. The `jsonwebtoken` package is used to generate and verify JSON Web Tokens. JWT is used by the project for user authentication and for protecting backend endpoints.
-
-The `cors` package allows requests between the React client and Express server when they are running on different ports during development. The `dotenv` package is used to load configuration values from the `.env` file, including the MongoDB connection string, JWT secret key, salt value, server port, and environment configuration. `nodemon` is used during backend development to automatically restart the Express server whenever backend source files are modified.
+On the backend, Node.js is used as the runtime environment, while Express is used to create the REST API routes. Mongoose is used to define the database schemas and communicate with MongoDB Atlas. The project uses `bcryptjs` to hash passwords before storing them in the database and to compare passwords during login. `jsonwebtoken` is used to generate and verify JWT tokens for authentication. The `cors` package allows the frontend and backend to communicate while running on different ports, while `dotenv` is used to store environment values such as the MongoDB connection string, secret key, and server port. `nodemon` is used during development so that the backend automatically restarts whenever changes are made.
 
 
 ## Design Pattern
 
-### Client-Side Design Pattern
+The client side follows a component-based design with a service layer. The pages represent the main screens of the application, while reusable interface elements are placed inside the `components` folder. Common page structures are placed inside the `layouts` folder. API requests are separated into the `services` folder so that the React pages do not need to directly contain all of the Fetch request logic.
 
-The React frontend follows a component-based architecture combined with a service-layer pattern. The application is divided into pages, reusable components, layouts, and services. Pages represent the major screens of the application, such as the product list, product details, orders, profile, and user management pages. Components contain reusable user interface elements, while layouts provide common page structures such as the navigation bar and footer.
+This design makes the frontend easier to maintain because each part has a specific responsibility. For example, `ProductPage.jsx` is responsible for displaying product details and handling user interaction, while `ProductService.js` is responsible for communicating with the product API.
 
-The service layer separates REST API communication from the user interface. Instead of writing Fetch API requests repeatedly inside each React page, the requests are grouped according to their purpose. For example, user requests are placed in `UserService.js`, product requests are placed in `ProductService.js`, and order requests are placed in `OrderService.js`. This separation makes the client easier to maintain because UI-related code and API-related code have different responsibilities.
+The server side follows an MVC-inspired layered architecture. The `routes` folder contains the API endpoints, the `controllers` folder contains the application logic, and the `models` folder contains the Mongoose schemas used to communicate with MongoDB. The `middleware` folder contains functions for authentication and authorization, such as verifying JWT tokens and checking user roles.
 
-The client also uses protected routing as part of its design. Public pages can be accessed without authentication, while account-related pages require a logged-in user. Role-based routing is used to prevent customer accounts from accessing administrator pages. This client-side protection improves the user experience, while the backend performs the actual security validation through JWT authentication and role authorization.
+The backend flow can be represented as:
 
+`Route → Middleware → Controller → Model → MongoDB`
 
-### Server-Side Design Pattern
-
-The Express backend follows an MVC-inspired layered architecture composed primarily of Routes, Controllers, Models, and Middleware. It is considered MVC-inspired rather than a traditional MVC application because the backend does not render server-side views. The React application acts as the separate client interface.
-
-Routes define the REST API endpoints of the application and determine which controller should process each request. Controllers contain the application logic, including retrieving data, creating records, updating records, validating information, and generating responses. Models define the MongoDB document structure using Mongoose schemas and are responsible for database operations.
-
-Middleware provides an additional layer between the routes and controllers. The authentication middleware verifies the JWT supplied by the React client, while the authorization middleware checks whether the authenticated user's role is allowed to perform a particular operation. Because middleware is executed before the controller, unauthorized requests can be rejected before application or database logic is performed.
-
-The main server-side flow can therefore be represented as `Request → Route → Authentication/Authorization Middleware → Controller → Model → MongoDB → Response`. Separating these responsibilities makes the backend more organized and allows authentication, application logic, and database operations to be maintained independently.
+This structure separates the different responsibilities of the server and makes the backend easier to organize and maintain.
 
 
 ## Project File Structure
-
-The following file outline shows how the client and server are organized and how the design patterns are represented in the project.
 
 ```text
 arellano-webprog/
 │
 ├── arellano-client/
-│   │
-│   ├── src/
-│   │   │
-│   │   ├── components/
-│   │   │   ├── Button.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   ├── NavBar.jsx
-│   │   │   ├── ProductCard.jsx
-│   │   │   └── ProductList.jsx
-│   │   │
-│   │   ├── layouts/
-│   │   │   ├── AuthLayout.jsx
-│   │   │   └── Layout.jsx
-│   │   │
-│   │   ├── pages/
-│   │   │   │
-│   │   │   ├── AuthPages/
-│   │   │   │   ├── SignInPage.jsx
-│   │   │   │   └── SignUpPage.jsx
-│   │   │   │
-│   │   │   ├── LandingPages/
-│   │   │   │   ├── HomePage.jsx
-│   │   │   │   ├── AboutPage.jsx
-│   │   │   │   ├── ProductListPage.jsx
-│   │   │   │   ├── ProductPage.jsx
-│   │   │   │   ├── OrdersPage.jsx
-│   │   │   │   ├── ProfilePage.jsx
-│   │   │   │   └── ManageUsersPage.jsx
-│   │   │   │
-│   │   │   └── NotFoundPage.jsx
-│   │   │
-│   │   ├── services/
-│   │   │   ├── UserService.js
-│   │   │   ├── ProductService.js
-│   │   │   ├── CategoryService.js
-│   │   │   ├── CartService.js
-│   │   │   ├── OrderService.js
-│   │   │   └── ReviewService.js
-│   │   │
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   ├── package.json
-│   └── vite.config.js
+│   └── src/
+│       ├── components/
+│       │   ├── Button.jsx
+│       │   ├── Footer.jsx
+│       │   ├── NavBar.jsx
+│       │   ├── ProductCard.jsx
+│       │   └── ProductList.jsx
+│       │
+│       ├── layouts/
+│       │   ├── AuthLayout.jsx
+│       │   └── Layout.jsx
+│       │
+│       ├── pages/
+│       │   ├── AuthPages/
+│       │   │   ├── SignInPage.jsx
+│       │   │   └── SignUpPage.jsx
+│       │   │
+│       │   ├── LandingPages/
+│       │   │   ├── HomePage.jsx
+│       │   │   ├── AboutPage.jsx
+│       │   │   ├── ProductListPage.jsx
+│       │   │   ├── ProductPage.jsx
+│       │   │   ├── OrdersPage.jsx
+│       │   │   ├── ProfilePage.jsx
+│       │   │   └── ManageUsersPage.jsx
+│       │   │
+│       │   └── NotFoundPage.jsx
+│       │
+│       ├── services/
+│       │   ├── UserService.js
+│       │   ├── ProductService.js
+│       │   ├── CategoryService.js
+│       │   ├── CartService.js
+│       │   ├── OrderService.js
+│       │   └── ReviewService.js
+│       │
+│       ├── App.jsx
+│       └── main.jsx
 │
 └── arellano-server/
-    │
     ├── config/
-    │   ├── config.js
-    │   └── db.js
-    │
     ├── controllers/
     │   ├── userController.js
     │   ├── productController.js
