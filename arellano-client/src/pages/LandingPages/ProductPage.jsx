@@ -491,7 +491,7 @@ function ProductPage() {
                         handleEditChange
                       }
                       required
-                      className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+                      className="mt-2 w-full rounded-xl border border-zinc-900 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
                     >
                       <option value="">
                         Select Category

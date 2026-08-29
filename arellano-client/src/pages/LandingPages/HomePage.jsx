@@ -80,7 +80,7 @@ const HomePage = () => {
             shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
             hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
             transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]">
-            <p className="text-2xl font-bold text-zinc-900">3</p>
+            <p className="text-2xl font-bold text-zinc-900">03</p>
 
             <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-900">
               Categories

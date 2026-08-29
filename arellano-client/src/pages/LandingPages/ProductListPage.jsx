@@ -1,40 +1,38 @@
-import { useEffect, useState} from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import Button from '../../components/Button.jsx';
 
-import Button from "../../components/Button.jsx";
-import ProductList from "../../components/ProductList.jsx";
+import ProductList from '../../components/ProductList.jsx';
+import { getProducts, createProduct } from '../../services/ProductService.js';
+import { getCategories } from '../../services/CategoryService.js';
 
-import { getProducts, createProduct} from "../../services/ProductService.js";
-import { getCategories } from "../../services/CategoryService.js";
+import { Plus, X, PackagePlus, Image, Tag, PhilippinePeso, Boxes, FileText } from 'lucide-react';
 
-const ProductListPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const categoryFromUrl = searchParams.get("category") || "";
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState(categoryFromUrl);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  const [createError, setCreateError] = useState("");
-  const [createMessage, setCreateMessage] = useState("");
-  const [searchError, setSearchError] = useState('');
-  const [newProduct, setNewProduct] = useState({
-    productName: "",
-    description: "",
-    price: "",
-    stock: "",
-    category: "",
-    image: ""
+const ProductListPage = () => { const [ searchParams, setSearchParams ] = useSearchParams();
+const categoryFromUrl = searchParams.get('category') || ''; 
+const [products, setProducts] = useState([]);
+const [search, setSearch] = useState('');
+const [category, setCategory] = useState(categoryFromUrl); const [loading, setLoading] = useState(true);
+const [error, setError] = useState('');
+const [categories, setCategories] = useState([]);
+const [ showCreateForm, setShowCreateForm ] = useState(false);
+const [ createError, setCreateError ] = useState('');
+const [ searchError, setSearchError ] = useState('');
+const [ newProduct, setNewProduct ] = useState({
+    productName: '',
+    description: '',
+    price: '',
+    stock: '',
+    category: '',
+    image: ''
   });
 
-  const storedUser = localStorage.getItem("user");
-  const user = storedUser
+const storedUser = localStorage.getItem('user');
+const user = storedUser
     ? JSON.parse(storedUser)
     : null;
-  const isAdmin =
-    user?.role === "admin";
+const isAdmin =
+    user?.role === 'admin';
 
   const loadProducts = async (
     selectedCategory = category,
@@ -42,7 +40,7 @@ const ProductListPage = () => {
   ) => {
     try {
       setLoading(true);
-      setError("");
+      setError('');
 
       const result =
         await getProducts(
@@ -75,7 +73,9 @@ const ProductListPage = () => {
             result.data
           );
         } catch (error) {
-          console.error(error);
+          console.error(
+            error
+          );
         }
       };
 
@@ -93,24 +93,26 @@ const ProductListPage = () => {
     );
   }, [categoryFromUrl]);
 
-  const handleSearch = (event) => {
-  event.preventDefault();
+  const handleSearch = (
+    event
+  ) => {
+    event.preventDefault();
 
-  if (!search.trim()) {
-    setSearchError(
-      'Please enter a product name to search.'
+    if (!search.trim()) {
+      setSearchError(
+        'Please enter a product name to search.'
+      );
+
+      return;
+    }
+
+    setSearchError('');
+
+    loadProducts(
+      category,
+      search
     );
-
-    return;
-  }
-
-  setSearchError('');
-
-  loadProducts(
-    category,
-    search
-  );
-};
+  };
 
   const handleCategoryChange = (
     event
@@ -140,6 +142,8 @@ const ProductListPage = () => {
       [event.target.name]:
         event.target.value
     });
+
+    setCreateError('');
   };
 
   const handleCreateProduct =
@@ -147,49 +151,33 @@ const ProductListPage = () => {
       event.preventDefault();
 
       try {
-        setCreateError("");
-        setCreateMessage("");
+        setCreateError('');
 
         await createProduct({
-          productName:
-            newProduct.productName,
-
-          description:
-            newProduct.description,
-
-          price:
-            Number(
-              newProduct.price
-            ),
-
-          stock:
-            Number(
-              newProduct.stock
-            ),
-
-          category:
-            newProduct.category,
-
-          image:
-            newProduct.image
+          productName: newProduct.productName,
+          description: newProduct.description,
+          price: Number( newProduct.price ),
+          stock: Number( newProduct.stock ),
+          category: newProduct.category,
+          image: newProduct.image
         });
 
-        setCreateMessage(
-          "Product created successfully."
-        );
-
         setNewProduct({
-          productName: "",
-          description: "",
-          price: "",
-          stock: "",
-          category: "",
-          image: ""
+          productName: '',
+          description: '',
+          price: '',
+          stock: '',
+          category: '',
+          image: ''
         });
 
         await loadProducts(
           category,
           search
+        );
+
+        setShowCreateForm(
+          false
         );
       } catch (error) {
         setCreateError(
@@ -198,10 +186,24 @@ const ProductListPage = () => {
       }
     };
 
+  const closeCreateModal = () => {
+    setShowCreateForm(false);
+    setCreateError('');
+
+    setNewProduct({
+      productName: '',
+      description: '',
+      price: '',
+      stock: '',
+      category: '',
+      image: ''
+    });
+  };
+
   return (
     <div className="flex w-full flex-col bg-violet-300">
 
-      <section className="border-b-1 border-zinc-900 bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="border-b border-zinc-900 bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 
         <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
           Products
@@ -236,7 +238,7 @@ const ProductListPage = () => {
               Featured Products
             </p>
 
-            <h2 className="mt-2 text-2xl font-semibold text-zinc-900 font-unbounded">
+            <h2 className="mt-2 font-unbounded text-2xl font-semibold text-zinc-900">
               Products
             </h2>
           </div>
@@ -245,169 +247,20 @@ const ProductListPage = () => {
             <Button
               type="button"
               variant="primary"
-              onClick={() =>
-                setShowCreateForm(
-                  !showCreateForm
-                )
-              }
+              onClick={() => {
+                setShowCreateForm(true);
+                setCreateError('');
+              }}
             >
-              {showCreateForm
-                ? "Cancel"
-                : "Create Product"}
+              <span className="flex items-center gap-2">
+                <Plus size={17} />
+                Create Product
+              </span>
             </Button>
           )}
-
         </div>
 
-        {isAdmin &&
-          showCreateForm && (
-            <form
-              onSubmit={
-                handleCreateProduct
-              }
-              className="mb-6 rounded-2xl border-1 border-zinc-900 bg-violet-100 p-5"
-            >
-
-              <h3 className="text-xl font-semibold text-zinc-900">
-                Create Product
-              </h3>
-
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
-
-                <input
-                  type="text"
-                  name="productName"
-                  value={
-                    newProduct.productName
-                  }
-                  onChange={
-                    handleProductChange
-                  }
-                  placeholder="Product name"
-                  required
-                  className="rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
-                />
-
-                <input
-                  type="number"
-                  name="price"
-                  value={
-                    newProduct.price
-                  }
-                  onChange={
-                    handleProductChange
-                  }
-                  placeholder="Price"
-                  min="50"
-                  required
-                  className="rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
-                />
-
-                <input
-                  type="number"
-                  name="stock"
-                  value={
-                    newProduct.stock
-                  }
-                  onChange={
-                    handleProductChange
-                  }
-                  placeholder="Stock"
-                  min="0"
-                  required
-                  className="rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
-                />
-
-                <select
-                  name="category"
-                  value={
-                    newProduct.category
-                  }
-                  onChange={
-                    handleProductChange
-                  }
-                  required
-                  className="rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
-                >
-                  <option value="">
-                    Select Category
-                  </option>
-
-                  {categories.map(
-                    (
-                      categoryItem
-                    ) => (
-                      <option
-                        key={
-                          categoryItem._id
-                        }
-                        value={
-                          categoryItem._id
-                        }
-                      >
-                        {
-                          categoryItem
-                            .categoryName
-                        }
-                      </option>
-                    )
-                  )}
-                </select>
-
-                <input
-                  type="text"
-                  name="image"
-                  value={
-                    newProduct.image
-                  }
-                  onChange={
-                    handleProductChange
-                  }
-                  placeholder="Image URL"
-                  className="rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900 sm:col-span-2"
-                />
-
-                <textarea
-                  name="description"
-                  value={
-                    newProduct.description
-                  }
-                  onChange={
-                    handleProductChange
-                  }
-                  placeholder="Product description"
-                  required
-                  rows="4"
-                  className="resize-none rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900 sm:col-span-2"
-                />
-
-              </div>
-
-              {createMessage && (
-                <p className="mt-4 text-sm font-medium text-green-800">
-                  {createMessage}
-                </p>
-              )}
-
-              {createError && (
-                <p className="mt-4 text-sm font-medium text-red-600">
-                  {createError}
-                </p>
-              )}
-
-              <div className="mt-5">
-                <Button
-                  type="submit"
-                  variant="primary"
-                >
-                  Create Product
-                </Button>
-              </div>
-
-            </form>
-          )}
-
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row bg-zinc-200 p-4 border-1 border-zinc-900 rounded-2xl">
+        <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-zinc-900 bg-zinc-200 p-4 sm:flex-row">
 
           <form
             onSubmit={
@@ -427,7 +280,7 @@ const ProductListPage = () => {
 
                 setSearchError('');
               }}
-              className="text-zinc-900 w-full rounded-xl border border-zinc-700 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+              className="w-full rounded-xl border border-zinc-700 bg-white px-4 py-3 text-sm text-zinc-900 outline-none focus:border-zinc-900"
             />
 
             <button
@@ -441,22 +294,35 @@ const ProductListPage = () => {
 
           <select
             value={category}
-            onChange={handleCategoryChange}
+            onChange={
+              handleCategoryChange
+            }
             className="rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
           >
             <option value="">
               All Categories
             </option>
 
-            {categories.map((categoryItem) => (
-              <option
-                key={categoryItem._id}
-                value={categoryItem.categoryName}
-              >
-                {categoryItem.categoryName}
-              </option>
-            ))}
+            {categories.map(
+              (
+                categoryItem
+              ) => (
+                <option
+                  key={
+                    categoryItem._id
+                  }
+                  value={
+                    categoryItem.categoryName
+                  }
+                >
+                  {
+                    categoryItem.categoryName
+                  }
+                </option>
+              )
+            )}
           </select>
+
         </div>
 
         {searchError && (
@@ -474,14 +340,14 @@ const ProductListPage = () => {
               Showing:
             </span>
 
-            <span className="rounded-full border border-violet-400 bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-900">
+            <span className="rounded-full border border-violet-400 bg-violet-100 px-3 py-1 text-xs font-semibold text-blue-800">
               {category}
             </span>
 
             <button
               type="button"
               onClick={() => {
-                setCategory("");
+                setCategory('');
                 setSearchParams({});
               }}
               className="text-xs font-semibold text-zinc-500 hover:text-red-600"
@@ -511,24 +377,263 @@ const ProductListPage = () => {
           !error &&
           products.length === 0 && (
             <div className="rounded-2xl border border-red-300 bg-red-50 px-5 py-4">
+
               <p className="font-semibold text-red-700">
                 No products found.
               </p>
 
               <p className="mt-1 text-sm text-red-600">
-                Try another search or category.
+                Try another search or
+                category.
               </p>
+
             </div>
           )}
 
-          {!loading &&
+        {!loading &&
           !error &&
           products.length > 0 && (
             <ProductList
-              products={products}
+              products={
+                products
+              }
             />
           )}
+
       </section>
+
+      {isAdmin &&
+        showCreateForm && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-zinc-900 bg-white p-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-900 text-white">
+                <PackagePlus size={20} />
+              </div>
+              <div>      
+                <h3 className="mt-1 text-2xl font-semibold text-zinc-900">
+                  Create Product
+                </h3>
+              </div>
+            </div>
+
+              <form
+                onSubmit={
+                  handleCreateProduct
+                }
+                className="mt-6"
+              >
+
+                <div className="grid gap-4 sm:grid-cols-2">
+
+                  <div>
+                    <label
+                      htmlFor="productName"
+                      className="text-sm font-medium text-zinc-700"
+                    >
+                      Product Name
+                    </label>
+
+                    <input
+                      id="productName"
+                      type="text"
+                      name="productName"
+                      value={
+                        newProduct.productName
+                      }
+                      onChange={
+                        handleProductChange
+                      }
+                      placeholder="Enter product name"
+                      required
+                      className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="price"
+                      className="text-sm font-medium text-zinc-700"
+                    >
+                      Price
+                    </label>
+
+                    <input
+                      id="price"
+                      type="number"
+                      name="price"
+                      value={
+                        newProduct.price
+                      }
+                      onChange={
+                        handleProductChange
+                      }
+                      placeholder="Enter price"
+                      min="50"
+                      required
+                      className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="stock"
+                      className="text-sm font-medium text-zinc-700"
+                    >
+                      Stock
+                    </label>
+
+                    <input
+                      id="stock"
+                      type="number"
+                      name="stock"
+                      value={
+                        newProduct.stock
+                      }
+                      onChange={
+                        handleProductChange
+                      }
+                      placeholder="Enter stock"
+                      min="0"
+                      required
+                      className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="category"
+                      className="text-sm font-medium text-zinc-700"
+                    >
+                      Category
+                    </label>
+
+                    <select
+                      id="category"
+                      name="category"
+                      value={
+                        newProduct.category
+                      }
+                      onChange={
+                        handleProductChange
+                      }
+                      required
+                      className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+                    >
+                      <option value="">
+                        Select Category
+                      </option>
+
+                      {categories.map(
+                        (
+                          categoryItem
+                        ) => (
+                          <option
+                            key={
+                              categoryItem._id
+                            }
+                            value={
+                              categoryItem._id
+                            }
+                          >
+                            {
+                              categoryItem.categoryName
+                            }
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </div>
+
+                  <div className="sm:col-span-2">
+
+                    <label
+                      htmlFor="image"
+                      className="text-sm font-medium text-zinc-700"
+                    >
+                      Image URL
+                    </label>
+
+                    <input
+                      id="image"
+                      type="text"
+                      name="image"
+                      value={
+                        newProduct.image
+                      }
+                      onChange={
+                        handleProductChange
+                      }
+                      placeholder="Enter image URL"
+                      className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+                    />
+
+                  </div>
+
+                  <div className="sm:col-span-2">
+
+                    <label
+                      htmlFor="description"
+                      className="text-sm font-medium text-zinc-700"
+                    >
+                      Description
+                    </label>
+
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={
+                        newProduct.description
+                      }
+                      onChange={
+                        handleProductChange
+                      }
+                      placeholder="Enter product description"
+                      rows="4"
+                      required
+                      className="mt-2 w-full resize-none rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+                    />
+
+                  </div>
+
+                </div>
+
+                {createError && (
+                  <div className="mt-5 rounded-xl border border-red-300 bg-red-50 px-4 py-3">
+                    <p className="text-sm font-medium text-red-700">
+                      {createError}
+                    </p>
+                  </div>
+                )}
+
+                <div className="mt-6 flex justify-end gap-3">
+
+                  <Button
+                    type="button"
+                    onClick={
+                      closeCreateModal
+                    }
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                  >
+                    Create Product
+                  </Button>
+
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+        )}
+
     </div>
   );
 };
