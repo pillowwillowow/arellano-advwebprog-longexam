@@ -1,194 +1,145 @@
-# CTWEBPGL Web Programming - Long Exam 1
+## Server and Client Integration
 
-This repository contains a React frontend built with Vite, React Router, and Tailwind CSS.
+The BulldogEx Shop uses a client-server architecture where the frontend and backend are developed separately but communicate through REST API requests. The client side is developed using React and Vite, while the server side is developed using Node.js and Express. The React application is responsible for displaying the user interface and handling user interactions, while the Express server handles application logic, authentication, authorization, validation, and communication with the MongoDB database.
 
-The current project is **BulldogEx Shop**, a low-fidelity e-commerce wireframe for campus products. It includes a full-width hero banner, product catalog cards, product detail pages, store information pages, shared layouts, and authentication screens.
+The frontend communicates with the backend using the built-in JavaScript Fetch API. Instead of placing API requests directly inside every React page, the project uses separate service files such as `UserService.js`, `ProductService.js`, `CategoryService.js`, `CartService.js`, `OrderService.js`, and `ReviewService.js`. Each service is responsible for communicating with its corresponding REST API endpoint. For example, `ProductService.js` communicates with `/api/v1/product`, while `OrderService.js` communicates with `/api/order`. This allows the React pages to focus on displaying data and handling user interactions while the service files handle communication with the backend.
 
-## Tech Stack
+When a request is sent from the client, it is received by an Express route on the server. The route forwards the request to the appropriate controller, which performs the required application logic and accesses MongoDB using a Mongoose model. The result is then returned to the React application as a JSON response. The general communication flow of the project is `React Page → Service File → Fetch API → Express Route → Controller → Mongoose Model → MongoDB`. After the database operation is completed, the response is returned through the same layers until it is displayed by the React frontend.
 
-- React 19
-- Vite
-- React Router DOM
-- Tailwind CSS 4
-- ESLint
+The project also integrates JWT authentication between the client and server. When a user successfully logs in, the Express server generates a JSON Web Token containing the user's ID and role. The React application stores the token and user information in local storage. When the frontend accesses a protected API endpoint, the corresponding service retrieves the token and sends it to the backend through the `Authorization` header using the Bearer token format. The backend uses authentication middleware to verify the token before allowing the request to continue.
 
-## Main Features
+Role-based authorization is also implemented on protected server endpoints. The authentication middleware first checks whether the request contains a valid JWT, while role verification middleware determines whether the authenticated user has permission to access a particular resource. For example, customers may view products, manage their cart, create orders, submit reviews, and access their own profile, while administrator accounts can access protected administrative operations such as viewing all users, editing users, creating or updating products, managing customer orders, and editing reviews. A request without a token returns `401 Unauthorized`, while a valid user without the required role receives `403 Forbidden`. A properly authenticated and authorized request is allowed to continue to the controller.
 
-- Full-width e-commerce hero section with background image overlay
-- Product listing page with reusable product cards
-- Product detail page with price, category, stock, description, and action buttons
-- Store-focused home, about, footer, and not found pages
-- Authentication pages for sign in and sign up
-- Shared layout, navbar, footer, and button components
+During development, the React frontend and Express backend run independently. The frontend is started using Vite, while the backend runs through the Express server on port `8000`. CORS is used to allow communication between the client and server when they are running on different origins or ports. This setup demonstrates full-stack integration because information displayed and modified by the React frontend is processed by the Express backend and stored in MongoDB Atlas rather than relying only on static or mock data.
 
-## Fork and Clone Instructions
 
-Fork the original repository first on GitHub. This creates your own copy of the repository under your GitHub account.
+## Libraries and Packages Used
 
-After the repository is forked, clone your forked repository to your local device:
+The client side uses React as the main library for developing the user interface. React allows the application to be divided into reusable components such as the navigation bar, footer, buttons, product cards, and product lists. React hooks such as `useState` are used to manage component data and form values, while `useEffect` is used to perform operations such as retrieving information from the backend when a page is loaded.
 
-1. Go to the root folder where you want to save the project.
-2. Open that folder in **VS Code**.
-3. Open the **VS Code Terminal**.
-4. Run `git clone` using the URL of your forked repository:
+React Router DOM is used to manage navigation between the different pages of the application. It is also used to implement protected frontend routes. The `ProtectedRoute` logic checks whether a user has a stored authentication token and account information before allowing access to restricted pages. It also checks the role of the logged-in user so that customer and administrator pages can be separated.
 
-```bash
-git clone <forked-repository-url>
-```
+Vite is used as the frontend development and build tool. It provides the development server used to run the React application and automatically updates the application when changes are made to the source files. Tailwind CSS is used to style the user interface, including page layouts, forms, buttons, cards, responsive grids, spacing, typography, colors, and status indicators. Lucide React is used to provide reusable icons throughout the interface, including icons for users, products, orders, shopping carts, account information, security, and password visibility.
 
-Example:
+The project does not use Axios for HTTP communication. Instead, it uses the browser's built-in Fetch API. Fetch is used inside the frontend service files to send GET, POST, PUT, and DELETE requests to the Express REST API. For protected requests, the JWT stored after login is included in the `Authorization` request header using the `Bearer` format.
 
-```bash
-git clone https://github.com/your-username/surname-long-exam.git
-```
+The server side uses Node.js as the JavaScript runtime environment and Express as the backend framework. Express is used to create REST API endpoints for users, products, categories, carts, orders, and reviews. It is also used to register middleware and connect API routes to their corresponding controller functions.
 
-After cloning the forked repository, go inside the cloned project folder:
+Mongoose is used as the Object Data Modeling library between Express and MongoDB. The project uses Mongoose models to define the structure of users, products, categories, carts, orders, and reviews. Mongoose is also responsible for database querying, document creation and updates, validation, object references, and population of related records. MongoDB Atlas is used as the cloud database where application information is stored.
 
-```bash
-cd surname-long-exam
-```
+The `bcryptjs` package is used for password security. User passwords are hashed before being stored in MongoDB, while `bcrypt.compare()` is used during login to determine whether the password entered by the user matches the stored hash. The `jsonwebtoken` package is used to generate and verify JSON Web Tokens. JWT is used by the project for user authentication and for protecting backend endpoints.
 
-## Project Setup
+The `cors` package allows requests between the React client and Express server when they are running on different ports during development. The `dotenv` package is used to load configuration values from the `.env` file, including the MongoDB connection string, JWT secret key, salt value, server port, and environment configuration. `nodemon` is used during backend development to automatically restart the Express server whenever backend source files are modified.
 
-Install dependencies inside the client app:
 
-```bash
-cd surname-client
-npm install
-```
+## Design Pattern
 
-Start the development server:
+### Client-Side Design Pattern
 
-```bash
-npm run dev
-```
+The React frontend follows a component-based architecture combined with a service-layer pattern. The application is divided into pages, reusable components, layouts, and services. Pages represent the major screens of the application, such as the product list, product details, orders, profile, and user management pages. Components contain reusable user interface elements, while layouts provide common page structures such as the navigation bar and footer.
 
-Create a production build:
+The service layer separates REST API communication from the user interface. Instead of writing Fetch API requests repeatedly inside each React page, the requests are grouped according to their purpose. For example, user requests are placed in `UserService.js`, product requests are placed in `ProductService.js`, and order requests are placed in `OrderService.js`. This separation makes the client easier to maintain because UI-related code and API-related code have different responsibilities.
 
-```bash
-npm run build
-```
+The client also uses protected routing as part of its design. Public pages can be accessed without authentication, while account-related pages require a logged-in user. Role-based routing is used to prevent customer accounts from accessing administrator pages. This client-side protection improves the user experience, while the backend performs the actual security validation through JWT authentication and role authorization.
 
-Run linting:
 
-```bash
-npm run lint
-```
+### Server-Side Design Pattern
 
-## Push to GitHub Using Git Bash
+The Express backend follows an MVC-inspired layered architecture composed primarily of Routes, Controllers, Models, and Middleware. It is considered MVC-inspired rather than a traditional MVC application because the backend does not render server-side views. The React application acts as the separate client interface.
 
-Open **Git Bash** or **VS Code Terminal**, then go to the project root folder:
+Routes define the REST API endpoints of the application and determine which controller should process each request. Controllers contain the application logic, including retrieving data, creating records, updating records, validating information, and generating responses. Models define the MongoDB document structure using Mongoose schemas and are responsible for database operations.
 
-Example
-```bash
-cd /c/Users/ACER/Desktop/cy.dev/cy.dev.reactjs/course-material/webprog/long-exam1
-```
+Middleware provides an additional layer between the routes and controllers. The authentication middleware verifies the JWT supplied by the React client, while the authorization middleware checks whether the authenticated user's role is allowed to perform a particular operation. Because middleware is executed before the controller, unauthorized requests can be rejected before application or database logic is performed.
 
-Check the files before committing:
+The main server-side flow can therefore be represented as `Request → Route → Authentication/Authorization Middleware → Controller → Model → MongoDB → Response`. Separating these responsibilities makes the backend more organized and allows authentication, application logic, and database operations to be maintained independently.
 
-```bash
-git status
-```
 
-If this folder is not yet a Git repository, initialize it:
+## Project File Structure
 
-```bash
-git init
-```
-
-Stage, commit, and push the project:
-
-```bash
-git add .
-git commit -m "initial long-exam1"
-git push origin main
-```
-
-For future updates after editing files:
-
-```bash
-git status
-git add .
-git commit -m "enhanced long-exam1"
-git push
-```
-
-## Current Routes
-
-- `/` - Home page
-- `/about` - About page
-- `/products` - Product list page
-- `/products/:name` - Single product page
-- `/auth/signin` - Sign in page
-- `/auth/signup` - Sign up page
-
-## Key Files
-
-- `src/assets/product-content.js` - product data used by the catalog and product pages
-- `src/components/ProductCard.jsx` - reusable product card component
-- `src/components/ProductList.jsx` - product grid component
-- `src/pages/LandingPages/ProductListPage.jsx` - product catalog page
-- `src/pages/LandingPages/ProductPage.jsx` - single product detail page
-- `src/pages/LandingPages/HomePage.jsx` - landing page with full-width hero banner
-
-## Current File Structure
+The following file outline shows how the client and server are organized and how the design patterns are represented in the project.
 
 ```text
-long-exam1/
-├── README.md
-└── robles-client/
-    ├── .gitignore
-    ├── eslint.config.js
-    ├── index.html
-    ├── package-lock.json
-    ├── package.json
-    ├── public/
-    │   ├── favicon.svg
-    │   └── icons.svg
-    ├── vite.config.js
-    └── src/
-        ├── App.jsx
-        ├── main.jsx
-        ├── assets/
-        │   ├── hero.png
-        │   ├── product-content.js
-        │   ├── react.svg
-        │   ├── vite.svg
-        │   ├── img/
-        │   │   ├── nu_bulldogex_banner.jpg
-        │   │   └── nubdexchange_logo.png
-        │   └── styles/
-        │       └── index.css
-        ├── components/
-        │   ├── Button.jsx
-        │   ├── Footer.jsx
-        │   ├── NavBar.jsx
-        │   ├── ProductCard.jsx
-        │   └── ProductList.jsx
-        ├── layouts/
-        │   ├── AuthLayout.jsx
-        │   └── Layout.jsx
-        └── pages/
-            ├── NotFoundPage.jsx
-            ├── AuthPages/
-            │   ├── SignInPage.jsx
-            │   └── SignUpPage.jsx
-            └── LandingPages/
-                ├── AboutPage.jsx
-                ├── ProductListPage.jsx
-                ├── ProductPage.jsx
-                └── HomePage.jsx
-```
-
-## Notes
-
-- `node_modules/` and `dist/` are not included in the structure above because they are generated folders.
-- The application uses `Layout.jsx` for public pages and `AuthLayout.jsx` for authentication pages.
-- Product routes use the product `name` value from `product-content.js` as the URL slug.
-
-## Enhancement Instructions
-- Enhancement 1: Develop an original product catalog with appropriate product names, descriptions, prices, categories, and images.
-- Enhancement 2: Create a customized footer and notfoundpage that aligns with the website theme and ensure that all links function correctly.
-- Enhancement 3: Provide accessible navigation links for both Sign In and Sign Up pages.
-- Enhancement 4: Improve the overall visual design through consistent colors, typography, spacing, and imagery without changing the existing component order or page structure.
-- Enhancement 5: Research and apply a custom font to the web application using an appropriate implementation method.
+arellano-webprog/
+│
+├── arellano-client/
+│   │
+│   ├── src/
+│   │   │
+│   │   ├── components/
+│   │   │   ├── Button.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── NavBar.jsx
+│   │   │   ├── ProductCard.jsx
+│   │   │   └── ProductList.jsx
+│   │   │
+│   │   ├── layouts/
+│   │   │   ├── AuthLayout.jsx
+│   │   │   └── Layout.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   │
+│   │   │   ├── AuthPages/
+│   │   │   │   ├── SignInPage.jsx
+│   │   │   │   └── SignUpPage.jsx
+│   │   │   │
+│   │   │   ├── LandingPages/
+│   │   │   │   ├── HomePage.jsx
+│   │   │   │   ├── AboutPage.jsx
+│   │   │   │   ├── ProductListPage.jsx
+│   │   │   │   ├── ProductPage.jsx
+│   │   │   │   ├── OrdersPage.jsx
+│   │   │   │   ├── ProfilePage.jsx
+│   │   │   │   └── ManageUsersPage.jsx
+│   │   │   │
+│   │   │   └── NotFoundPage.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   ├── UserService.js
+│   │   │   ├── ProductService.js
+│   │   │   ├── CategoryService.js
+│   │   │   ├── CartService.js
+│   │   │   ├── OrderService.js
+│   │   │   └── ReviewService.js
+│   │   │
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   │
+│   ├── package.json
+│   └── vite.config.js
+│
+└── arellano-server/
+    │
+    ├── config/
+    │   ├── config.js
+    │   └── db.js
+    │
+    ├── controllers/
+    │   ├── userController.js
+    │   ├── productController.js
+    │   ├── categoryController.js
+    │   ├── cartController.js
+    │   ├── orderController.js
+    │   └── reviewController.js
+    │
+    ├── middleware/
+    │   └── authMiddleware.js
+    │
+    ├── models/
+    │   ├── userModel.js
+    │   ├── productModel.js
+    │   ├── categoryModel.js
+    │   ├── cartModel.js
+    │   ├── orderModel.js
+    │   └── reviewModel.js
+    │
+    ├── routes/
+    │   ├── userRoutes.js
+    │   ├── productRoutes.js
+    │   ├── categoryRoutes.js
+    │   ├── cartRoutes.js
+    │   ├── orderRoutes.js
+    │   └── reviewRoutes.js
+    │
+    ├── .env
+    ├── index.js
+    └── package.json

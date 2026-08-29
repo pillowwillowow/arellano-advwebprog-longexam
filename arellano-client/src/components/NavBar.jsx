@@ -1,59 +1,150 @@
-import { NavLink } from 'react-router-dom';
+import {
+  NavLink,
+  useNavigate
+} from 'react-router-dom';
+
 import logo from '../assets/img/nubdexchange_logo.png';
-
-const links = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Products', to: '/products' },
-
-  {/*Enhancement 3: Provide accessible navigation links for both Sign In and Sign Up pages.*/},
-  { label: 'Sign In', to: '/auth/signin' },
-  { label: 'Sign Up', to: '/auth/signup' },
-];
 
 const navLinkClassName = ({ isActive }) =>
   [
-    'relative px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] transition',
-    'after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-violet-900 after:transition-all after:duration-300',
-    'hover:after:w-full',
-    isActive ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-900',
+    'relative px-2 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] transition',
+    'after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:scale-x-0 after:bg-blue-900 after:transition-transform',
+    'hover:text-zinc-900 hover:after:scale-x-100',
+    isActive
+      ? 'text-zinc-900 after:scale-x-100'
+      : 'text-zinc-500'
   ].join(' ');
 
 const NavBar = () => {
+  const navigate = useNavigate();
+
+  const storedUser =
+    localStorage.getItem('user');
+
+  const user = storedUser
+    ? JSON.parse(storedUser)
+    : null;
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    navigate('/auth/signin');
+    window.location.reload();
+  };
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-zinc-900 bg-violet-300/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <NavLink to="/" className="flex items-center gap-3">
-          <img src={logo} alt="BulldogEx" className="h-9 w-9 rounded-full border-2 border-zinc-900 bg-violet-50 object-contain" />
-          <div className="space-y-0.5">
+    <header className="fixed inset-x-0 top-0 z-50 border-b-1 border-zinc-900 bg-violet-200/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8">
 
-          {/* Enhancement 5: Research and apply a custom font to the web application using an appropriate implementation method. */}
-          <p
-          className="text-xl font-bold text-zinc-900 font-unbounded">BulldogEx Shop</p>
-          </div>
-          
+        <NavLink
+          to="/"
+          className="flex shrink-0 items-center gap-3"
+        >
+          <img
+            src={logo}
+            alt="BulldogEx"
+            className="h-10 w-10 rounded-full border-1 border-zinc-900 bg-white object-contain"
+          />
+
+          <span className="text-lg font-bold text-zinc-900 font-unbounded">
+            BulldogEx Shop
+          </span>
         </NavLink>
-        <nav className="hidden items-center gap-2 md:flex">
-          
-         {links.map((link) => {
-            let customClass = navLinkClassName;
-            if (link.to === '/auth/signup') {
-              customClass = () =>
-                'flex gap-3 text-black px-4 py-2 text-[13px] hover:text-violet-900 font-semibold lowercase [24-em]';
-            }
 
-            if (link.to === '/auth/signin') {
-              customClass = () =>
-                'ml-16 flex gap text-[13px] border-transparent hover:text-violet-900 font-semibold lowercase [24-em]]';
-            }
+        <nav className="hidden flex-1 items-center justify-end gap-1 md:flex">
 
-            return (
-              <NavLink key={link.to} to={link.to} className={customClass}>
-                {link.label}
+          <div className="flex items-center gap-1">
+            <NavLink
+              to="/"
+              className={navLinkClassName}
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              className={navLinkClassName}
+            >
+              About
+            </NavLink>
+
+            <NavLink
+              to="/products"
+              className={navLinkClassName}
+            >
+              Products
+            </NavLink>
+
+            {user && (
+              <NavLink
+                to="/orders"
+                className={navLinkClassName}
+              >
+                Orders
               </NavLink>
-            );
-          })}
-        </nav>  
+            )}
+
+            {user?.role === 'customer' && (
+              <NavLink
+                to="/profile"
+                className={navLinkClassName}
+              >
+                Profile
+              </NavLink>
+            )}
+
+            {user?.role === 'admin' && (
+              <NavLink
+                to="/manage-users"
+                className={navLinkClassName}
+              >
+                Manage Users
+              </NavLink>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 border-l border-blue-900 pl-5">
+            {!user ? (
+              <>
+                <NavLink
+                  to="/auth/signin"
+                  className="rounded-full px-4 py-2 text-xs font-semibold text-zinc-700 transition hover:bg-violet-100 hover:text-zinc-900"
+                >
+                  Sign In
+                </NavLink>
+
+                <NavLink
+                  to="/auth/signup"
+                  className="rounded-full border-1 border-zinc-900 bg-zinc-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-violet-900"
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <div className="flex min-w-[90px] flex-col items-start">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                    {user.role}
+                  </p>
+
+                  <p className="text-sm font-semibold text-zinc-900">
+                    {user.firstName}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-full border-1 border-zinc-900 bg-white px-4 py-2 text-xs font-semibold text-zinc-900 transition hover:bg-yellow-300 hover:text-zinc-900"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
+
+        </nav>
       </div>
     </header>
   );

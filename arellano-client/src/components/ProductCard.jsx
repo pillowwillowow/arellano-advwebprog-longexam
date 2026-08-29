@@ -2,43 +2,43 @@ import Button from './Button';
 
 const ProductCard = ({ product, index }) => {
   return (
-    <article className="flex h-full flex-col rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-      <div className="flex aspect-4/3 items-center justify-center overflow-hidden rounded-[1.25rem] bg-zinc-200">
-        {product.image ? (
-          <img
-            src={product.image}
-            alt={product.title}
-            className="h-full w-full bg-white object-contain"
-          />
-        ) : (
-          <div className="flex h-16 w-16 items-center justify-center border-2 border-zinc-300 bg-zinc-100 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
-            Item
-          </div>
-        )}
-      </div>
+    <article className="flex h-full flex-col rounded-3xl border-1 border-zinc-900 bg-yellow-100 p-4">
+    <div className="flex h-48 w-full items-center justify-center overflow-hidden rounded-[1.25rem] bg-zinc-200">
+      {product.image ? (
+        <img
+          src={product.image}
+          alt={product.productName}
+          className="h-full w-full bg-white object-cover"
+        />
+      ) : (
+        <div className="flex h-16 w-16 items-center justify-center border-1 border-zinc-300 bg-zinc-100 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+          Item
+        </div>
+      )}
+    </div>
 
       <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-        {product.category} {String(index + 1).padStart(2, '0')}
+        {product.category?.categoryName} {String(index + 1).padStart(2, '0')}
       </p>
 
       <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-        {product.title}
+        {product.productName}
       </h3>
 
       <p className="mt-2 text-base font-bold text-zinc-900">
-        {product.price}
+        ₱{product.price}
       </p>
 
       <p className="mt-3 text-sm leading-6 text-zinc-600">
-        {product.content[0].substring(0, 120)}...
+        {product.description}
       </p>
 
       <Button
-      to={`/products/${product.name}`}
-      className="mt-auto pt-2 self-start"
-      variant="primary"
+        to={`/products/${product._id}`}
+        className="mt-auto pt-2 self-start"
+        variant="primary"
       >
-      View Product
+        View Product
       </Button>
     </article>
   );
