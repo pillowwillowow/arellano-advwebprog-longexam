@@ -4,10 +4,7 @@ const {
   SECRET_KEY
 } = require('../config/config');
 
-const verifyToken = (
-  req,
-  res,
-  next
+const verifyToken = ( req, res, next
 ) => {
   try {
     const authHeader =
@@ -48,10 +45,7 @@ const verifyToken = (
 const verifyRole = (
   ...allowedRoles
 ) => {
-  return (
-    req,
-    res,
-    next
+  return ( req, res, next
   ) => {
     if (
       !req.user ||
@@ -69,7 +63,4 @@ const verifyRole = (
   };
 };
 
-module.exports = {
-  verifyToken,
-  verifyRole
-};
+module.exports = { verifyToken, verifyRole };

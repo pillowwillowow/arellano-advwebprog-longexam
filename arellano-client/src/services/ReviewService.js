@@ -1,119 +1,66 @@
-const BASE_URL =
-  'http://localhost:8000/api/review';
+const BASE_URL = "http://localhost:8000/api/review";
 
 const getAuthHeaders = () => {
-  const token =
-    localStorage.getItem(
-      'token'
-    );
+  const token = localStorage.getItem("token");
 
   return {
-    'Content-Type':
-      'application/json',
-    Authorization:
-      `Bearer ${token}`
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
   };
 };
 
-export const getReviews =
-  async () => {
-    const response =
-      await fetch(
-        BASE_URL
-      );
+export const getReviews = async () => {
+  const response = await fetch(BASE_URL);
 
-    const data =
-      await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(
-        data.message ||
-        'Failed to load reviews'
-      );
-    }
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to load reviews");
+  }
 
-    return data;
-  };
+  return data;
+};
 
-export const getReviewsByProduct =
-  async (productId) => {
-    const response =
-      await fetch(
-        `${BASE_URL}/product/${productId}`
-      );
+export const getReviewsByProduct = async (productId) => {
+  const response = await fetch(`${BASE_URL}/product/${productId}`);
 
-    const data =
-      await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(
-        data.message ||
-        'Failed to load reviews'
-      );
-    }
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to load reviews");
+  }
 
-    return data;
-  };
+  return data;
+};
 
-export const createReview =
-  async (reviewData) => {
-    const response =
-      await fetch(
-        BASE_URL,
-        {
-          method:
-            'POST',
-          headers:
-            getAuthHeaders(),
-          body:
-            JSON.stringify(
-              reviewData
-            )
-        }
-      );
+export const createReview = async (reviewData) => {
+  const response = await fetch(BASE_URL, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(reviewData),
+  });
 
-    const data =
-      await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(
-        data.message ||
-        'Failed to create review'
-      );
-    }
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to create review");
+  }
 
-    return data;
-  };
+  return data;
+};
 
-export const updateReview =
-  async (
-    id,
-    reviewData
-  ) => {
-    const response =
-      await fetch(
-        `${BASE_URL}/${id}`,
-        {
-          method:
-            'PUT',
-          headers:
-            getAuthHeaders(),
-          body:
-            JSON.stringify(
-              reviewData
-            )
-        }
-      );
+export const updateReview = async (id, reviewData) => {
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "PUT",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(reviewData),
+  });
 
-    const data =
-      await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(
-        data.message ||
-        'Failed to update review'
-      );
-    }
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to update review");
+  }
 
-    return data;
-  };
+  return data;
+};

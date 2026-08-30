@@ -1,13 +1,6 @@
 import { useState } from 'react';
-import {
-  Link,
-  useNavigate
-} from 'react-router-dom';
-
-import {
-  Eye,
-  EyeOff
-} from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 
 import Button from '../../components/Button';
 import { loginUser } from "../../services/UserService.js";
