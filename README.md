@@ -1,6 +1,6 @@
 # BulldogEx Shop
 
-BulldogEx Shop is a full-stack web application for browsing and managing music-related products.
+BulldogEx Shop is a full-stack web application for browsing and managing products.
 
 The system allows customers to browse products, search by category, add products to their cart, place orders, submit reviews, and manage their profile.
 
@@ -94,32 +94,98 @@ Administrators can:
 project-folder/
 │
 ├── arellano-client/
+│   │
 │   ├── src/
+│   │   │
 │   │   ├── assets/
+│   │   │
 │   │   ├── components/
+│   │   │
 │   │   ├── layouts/
+│   │   │   ├── AuthLayout.jsx
+│   │   │   └── Layout.jsx
+│   │   │
 │   │   ├── pages/
+│   │   │   │
+│   │   │   ├── AuthPages/
+│   │   │   │   ├── SignInPage.jsx
+│   │   │   │   └── SignUpPage.jsx
+│   │   │   │
+│   │   │   ├── LandingPages/
+│   │   │   │   ├── AboutPage.jsx
+│   │   │   │   ├── HomePage.jsx
+│   │   │   │   ├── ManageUsersPage.jsx
+│   │   │   │   ├── OrdersPage.jsx
+│   │   │   │   ├── ProductListPage.jsx
+│   │   │   │   ├── ProductPage.jsx
+│   │   │   │   └── ProfilePage.jsx
+│   │   │   │
+│   │   │   └── NotFoundPage.jsx
+│   │   │
 │   │   ├── services/
+│   │   │   ├── CartService.js
+│   │   │   ├── CategoryService.js
+│   │   │   ├── OrderService.js
+│   │   │   ├── ProductService.js
+│   │   │   ├── ReviewService.js
+│   │   │   └── UserService.js
+│   │   │
 │   │   ├── App.jsx
+│   │   ├── index.css
 │   │   └── main.jsx
+│   │
+│   ├── public/
+│   │
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
 │   ├── package.json
 │   └── vite.config.js
 │
 ├── arellano-server/
+│   │
 │   ├── config/
+│   │   ├── config.js
+│   │   └── db.js
+│   │
 │   ├── controllers/
+│   │   ├── cartController.js
+│   │   ├── categoryController.js
+│   │   ├── orderController.js
+│   │   ├── productController.js
+│   │   ├── reviewController.js
+│   │   └── userController.js
+│   │
 │   ├── middleware/
+│   │   └── authMiddleware.js
+│   │
 │   ├── models/
+│   │   ├── cartModel.js
+│   │   ├── categoryModel.js
+│   │   ├── orderModel.js
+│   │   ├── productModel.js
+│   │   ├── reviewModel.js
+│   │   └── userModel.js
+│   │
 │   ├── routes/
+│   │   ├── cartRoutes.js
+│   │   ├── categoryRoutes.js
+│   │   ├── orderRoutes.js
+│   │   ├── productRoutes.js
+│   │   ├── reviewRoutes.js
+│   │   └── userRoutes.js
+│   │
 │   ├── .env
+│   ├── .gitignore
 │   ├── index.js
+│   ├── package-lock.json
 │   └── package.json
 │
 ├── .gitignore
 └── README.md
-```
 
----
+```
 
 ## Setup Instructions
 
