@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Eye, EyeOff, UserRound, ShieldCheck, Save } from "lucide-react";
+import { Eye, EyeOff, UserRound, ShieldCheck, Save, Dog } from "lucide-react";
 
 import Button from "../../components/Button.jsx";
 
@@ -254,7 +254,7 @@ const ProfilePage = () => {
             <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
-                  <UserRound size={18} />
+                  <Dog size={25} />
                 </div>
 
                 <div>

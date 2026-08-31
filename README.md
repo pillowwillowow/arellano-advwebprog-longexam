@@ -593,8 +593,6 @@ Orders can have the following statuses:
 Ongoing
 Confirmed
 Ready for Claiming
-Claimed
-Cancelled
 ```
 
 A newly created order starts as:
@@ -659,7 +657,6 @@ Examples:
 Button.jsx
 NavBar.jsx
 Footer.jsx
-Sidebar.jsx
 ProductCard.jsx
 ProductList.jsx
 ```

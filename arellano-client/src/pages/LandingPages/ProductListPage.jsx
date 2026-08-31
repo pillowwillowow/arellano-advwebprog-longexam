@@ -20,6 +20,8 @@ import {
   FileText,
   Search,
   Package,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 const inputClasses =
@@ -48,6 +50,14 @@ const ProductListPage = () => {
 
   const [searchError, setSearchError] = useState("");
 
+  const [page, setPage] = useState(1);
+
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [totalProducts, setTotalProducts] = useState(0);
+
+  const productsPerPage = 8;
+
   const [newProduct, setNewProduct] = useState({
     productName: "",
     description: "",
@@ -65,17 +75,27 @@ const ProductListPage = () => {
 
   const loadProducts = async (
     selectedCategory = category,
-
     searchValue = search,
+    selectedPage = page,
   ) => {
     try {
       setLoading(true);
-
       setError("");
 
-      const result = await getProducts(1, 10, searchValue, selectedCategory);
+      const result = await getProducts(
+        selectedPage,
+        productsPerPage,
+        searchValue,
+        selectedCategory,
+      );
 
-      setProducts(result.data);
+      setProducts(result.data || []);
+
+      const total = result.total ?? result.count ?? result.data?.length ?? 0;
+
+      setTotalProducts(total);
+
+      setTotalPages(Math.max(1, Math.ceil(total / productsPerPage)));
     } catch (error) {
       setError(error.message);
     } finally {
@@ -100,7 +120,9 @@ const ProductListPage = () => {
   useEffect(() => {
     setCategory(categoryFromUrl);
 
-    loadProducts(categoryFromUrl, search);
+    setPage(1);
+
+    loadProducts(categoryFromUrl, search, 1);
   }, [categoryFromUrl]);
 
   const handleSearch = (event) => {
@@ -114,13 +136,17 @@ const ProductListPage = () => {
 
     setSearchError("");
 
-    loadProducts(category, search);
+    setPage(1);
+
+    loadProducts(category, search, 1);
   };
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
 
     setCategory(selectedCategory);
+
+    setPage(1);
 
     if (selectedCategory) {
       setSearchParams({
@@ -129,6 +155,21 @@ const ProductListPage = () => {
     } else {
       setSearchParams({});
     }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > totalPages) {
+      return;
+    }
+
+    setPage(newPage);
+
+    loadProducts(category, search, newPage);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const handleProductChange = (event) => {
@@ -170,7 +211,9 @@ const ProductListPage = () => {
         image: "",
       });
 
-      await loadProducts(category, search);
+      setPage(1);
+
+      await loadProducts(category, search, 1);
 
       setShowCreateForm(false);
     } catch (error) {
@@ -248,7 +291,7 @@ const ProductListPage = () => {
             </div>
 
             <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-600">
-              {products.length} {products.length === 1 ? "Product" : "Products"}
+              {totalProducts} {totalProducts === 1 ? "Product" : "Products"}
             </span>
           </div>
 
@@ -315,7 +358,7 @@ const ProductListPage = () => {
                 type="button"
                 onClick={() => {
                   setCategory("");
-
+                  setPage(1);
                   setSearchParams({});
                 }}
                 className="text-xs font-medium text-zinc-400 transition hover:text-red-600"
@@ -356,6 +399,56 @@ const ProductListPage = () => {
               <ProductList products={products} />
             )}
           </div>
+
+          {!loading && !error && totalPages > 1 && (
+            <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-zinc-100 pt-4 sm:flex-row">
+              <p className="text-xs text-zinc-500">
+                Page {page} of {totalPages}
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  disabled={page === 1}
+                  onClick={() => handlePageChange(page - 1)}
+                  className="flex h-9 items-center gap-1 rounded-lg border border-zinc-200 bg-white px-3 text-xs font-semibold text-zinc-600 transition hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <ChevronLeft size={14} />
+                  Previous
+                </button>
+
+                {Array.from(
+                  {
+                    length: totalPages,
+                  },
+                  (_, index) => index + 1,
+                ).map((pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    type="button"
+                    onClick={() => handlePageChange(pageNumber)}
+                    className={
+                      page === pageNumber
+                        ? "flex h-9 w-9 items-center justify-center rounded-lg bg-blue-900 text-xs font-semibold text-white"
+                        : "flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-xs font-semibold text-zinc-600 transition hover:bg-zinc-50"
+                    }
+                  >
+                    {pageNumber}
+                  </button>
+                ))}
+
+                <button
+                  type="button"
+                  disabled={page === totalPages}
+                  onClick={() => handlePageChange(page + 1)}
+                  className="flex h-9 items-center gap-1 rounded-lg border border-zinc-200 bg-white px-3 text-xs font-semibold text-zinc-600 transition hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+            </div>
+          )}
         </section>
       </div>
 

@@ -2,7 +2,7 @@ import Button from './Button';
 
 const ProductCard = ({ product, index }) => {
   return (
-    <article className="flex h-full flex-col rounded-3xl border-1 border-zinc-900 bg-yellow-100 p-4">
+    <article className="flex h-full flex-col rounded-3xl bg-blue-900 p-4">
     <div className="flex h-48 w-full items-center justify-center overflow-hidden rounded-[1.25rem] bg-zinc-200">
       {product.image ? (
         <img
@@ -17,26 +17,26 @@ const ProductCard = ({ product, index }) => {
       )}
     </div>
 
-      <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+      <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-yellow-400">
         {product.category?.categoryName} {String(index + 1).padStart(2, '0')}
       </p>
 
-      <h3 className="mt-2 text-lg font-semibold text-zinc-900">
+      <h3 className="mt-2 text-lg font-semibold text-white">
         {product.productName}
       </h3>
 
-      <p className="mt-2 text-base font-bold text-zinc-900">
+      <p className="mt-2 text-base text-white">
         ₱{product.price}
       </p>
 
-      <p className="mt-3 text-sm leading-6 text-zinc-600">
+      <p className="mt-3 text-sm leading-6 text-white">
         {product.description}
       </p>
 
       <Button
         to={`/products/${product._id}`}
         className="mt-auto pt-2 self-start"
-        variant="primary"
+        variant="secondary"
       >
         View Product
       </Button>

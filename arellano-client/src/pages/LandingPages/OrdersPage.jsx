@@ -226,10 +226,6 @@ const OrdersPage = () => {
       return "border-green-300 " + "bg-green-50 " + "text-green-700";
     }
 
-    if (status === "Cancelled") {
-      return "border-red-300 " + "bg-red-50 " + "text-red-700";
-    }
-
     return "border-zinc-300 " + "bg-zinc-100 " + "text-zinc-700";
   };
 
@@ -352,7 +348,6 @@ const OrdersPage = () => {
 
           <option value="Ready for Claiming">Ready for Claiming</option>
 
-          <option value="Claimed">Claimed</option>
         </select>
       </div>
 

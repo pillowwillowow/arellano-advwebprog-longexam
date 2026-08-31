@@ -1,4 +1,5 @@
 import Button from "../../components/Button";
+import { ShoppingBag, Package, Tags, Clock3, PawPrint, Dog } from "lucide-react";
 
 import banner from "../../assets/img/nu_bulldogex_banner.jpg";
 import audio from "../../assets/img/audio.jpg";
@@ -33,9 +34,16 @@ const HomePage = () => {
             </p>
 
             <div className="mt-6 flex flex-wrap justify-end gap-3">
-              <Button to="/products">Shop Now</Button>
-
+              <Button to="/products">
+                <span className="flex items-center gap-2 pr-1">
+                  <PawPrint size={15} />
+                  View Products
+                </span>
+              </Button>
               <Button to="/about" variant="tertiary">
+              <span className="flex items-center gap-2 pr-1">
+                  <Dog size={15} />
+                  </span>
                 About Store
               </Button>
             </div>
@@ -54,55 +62,80 @@ const HomePage = () => {
           </h2>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div
-            className="rounded-3xl border border-zinc-900 bg-blue-900 p-5
+            className="rounded-3xl bg-yellow-300 p-5
             shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
             hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
             transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
           >
-            <p className="text-2xl font-bold text-white">24</p>
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-white">
+            <div className="flex items-center justify-between">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
+                <ShoppingBag size={18} />
+              </div>
+
+              <span className="text-2xl font-bold text-zinc-900">10</span>
+            </div>
+
+            <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-zinc-900">
               Products
             </p>
           </div>
 
           <div
-            className="rounded-3xl border border-zinc-900 bg-yellow-300 p-5
+            className="rounded-3xl bg-blue-900 p-5
             shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
             hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
             transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
           >
-            <p className="text-2xl font-bold text-zinc-900">03</p>
+            <div className="flex items-center justify-between">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
+                <Tags size={18} />
+              </div>
 
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-900">
+              <span className="text-2xl font-bold text-white">03</span>
+            </div>
+
+            <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-white">
               Categories
             </p>
           </div>
 
           <div
-            className="rounded-3xl border border-zinc-900 bg-blue-900 p-5
+            className="rounded-3xl bg-yellow-300 p-5
             shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
             hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
             transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
           >
-            <p className="text-2xl font-bold text-white">24</p>
+            <div className="flex items-center justify-between">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
+                <Clock3 size={18} />
+              </div>
 
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-white">
-              Orders
+              <span className="text-2xl font-bold text-zinc-900">03</span>
+            </div>
+
+            <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-zinc-900">
+              Pickup Slots
             </p>
           </div>
 
           <div
-            className="rounded-3xl border border-zinc-900 bg-yellow-300 p-5
+            className="rounded-3xl bg-blue-900 p-5
             shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
             hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
             transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
           >
-            <p className="text-2xl font-bold text-zinc-900">24</p>
+            <div className="flex items-center justify-between">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
+                <Package size={18} />
+              </div>
 
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-900">
-              Pickup Slots
+              <span className="text-2xl font-bold text-white">24</span>
+            </div>
+
+            <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-white">
+              Orders
             </p>
           </div>
         </div>

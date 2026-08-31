@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
 
-import { Star, ShoppingCart, X } from "lucide-react";
+import { Star, ShoppingCart, X, PawPrint, Dog, ClipboardPen } from "lucide-react";
 
 import Button from "../../components/Button.jsx";
 
@@ -300,7 +300,14 @@ function ProductPage() {
           </h1>
 
           <div className="mt-6">
-            <Button to="/products">Back to Products</Button>
+            <div className="mt-6">
+              <Button to="/products">
+                <span className="flex items-center gap-2">
+                  <PawPrint size={15} />
+                  Back to Products
+                </span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -311,21 +318,14 @@ function ProductPage() {
     <div className="min-h-screen bg-zinc-200 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <div className="flex flex-wrap gap-3">
-          <Button to="/products">Back to Products</Button>
-
-          {isAdmin && (
-            <Button
-              type="button"
-              variant="primary"
-              onClick={() => {
-                setIsEditing(true);
-                setEditMessage("");
-                setEditError("");
-              }}
-            >
-              Edit Product
+          <div className="mt-6">
+            <Button to="/products">
+              <span className="flex items-center gap-2">
+                <PawPrint size={15} />
+                Back to Products
+              </span>
             </Button>
-          )}
+          </div>
         </div>
 
         {isAdmin && isEditing && (
@@ -515,10 +515,10 @@ function ProductPage() {
           </div>
         )}
 
-        <section className="rounded-3xl border border-zinc-900 bg-zinc-50 p-5 sm:p-7">
+        <section className="rounded-3xl bg-zinc-50 p-5 sm:p-7">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1fr_1fr]">
             <div className="flex flex-col">
-              <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-200">
+              <div className="flex aspect-[6/7] items-center justify-center overflow-hidden rounded-2xl">
                 {product.image ? (
                   <img
                     src={product.image}
@@ -528,10 +528,6 @@ function ProductPage() {
                 ) : (
                   <p className="text-sm text-zinc-500">No image available</p>
                 )}
-              </div>
-
-              <div className="mt-4">
-                <Button to="/products">Continue Shopping</Button>
               </div>
             </div>
 
@@ -552,6 +548,23 @@ function ProductPage() {
                 <span className="rounded-full border border-zinc-300 bg-zinc-100 px-3 py-1 text-sm text-zinc-600">
                   Stock: {product.stock}
                 </span>
+
+                {isAdmin && (
+                  <Button
+                    type="button"
+                    variant="primary"
+                    onClick={() => {
+                      setIsEditing(true);
+                      setEditMessage("");
+                      setEditError("");
+                    }}
+                  >
+                    <span className="flex items-center gap-2">
+                      <ClipboardPen size={15} />
+                      Edit Product
+                    </span>
+                  </Button>
+                )}
 
                 {!isAdmin && (
                   <Button
@@ -592,7 +605,7 @@ function ProductPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-zinc-900 bg-white p-5">
+            <div className="rounded-2xl border border-zinc-600 bg-white p-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
@@ -776,7 +789,10 @@ function ProductPage() {
                     )}
 
                     <Button type="submit" variant="primary">
-                      Submit Review
+                      <span className="flex items-center gap-2">
+                        <PawPrint size={15} />
+                        Submit Review
+                      </span>
                     </Button>
                   </form>
                 </div>

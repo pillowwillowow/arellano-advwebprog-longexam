@@ -94,7 +94,12 @@ const AboutPage = () => {
           </div>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-zinc-200 bg-yellow-500 p-4">
+            <div
+              className="rounded-3xl bg-yellow-300 p-5
+            shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
+            hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
+            transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
                   <ShoppingBag size={18} />
@@ -108,7 +113,12 @@ const AboutPage = () => {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-zinc-200 bg-blue-800 p-4">
+            <div
+              className="rounded-3xl bg-blue-900 p-5
+            shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
+            hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
+            transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
                   <Tags size={18} />
@@ -122,7 +132,12 @@ const AboutPage = () => {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-zinc-200 bg-yellow-500 p-4">
+            <div
+              className="rounded-3xl bg-yellow-300 p-5
+            shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
+            hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
+            transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
                   <Clock3 size={18} />
@@ -136,7 +151,12 @@ const AboutPage = () => {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-zinc-200 bg-blue-800 p-4">
+            <div
+              className="rounded-3xl bg-blue-900 p-5
+            shadow-[0_0_10px_rgba(107,135,84,0.4),0_0_30px_rgba(107,135,84,0.3)]
+            hover:shadow-[0_0_20px_rgba(107,135,84,0.7),0_0_50px_rgba(107,135,84,0.5)]
+            transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04]"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
                   <Package size={18} />
