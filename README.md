@@ -158,7 +158,8 @@ project-folder/
 │   │   └── userController.js
 │   │
 │   ├── middleware/
-│   │   └── authMiddleware.js
+│   │   ├── authentication.js
+│   │   └── authorization.js
 │   │
 │   ├── models/
 │   │   ├── cartModel.js

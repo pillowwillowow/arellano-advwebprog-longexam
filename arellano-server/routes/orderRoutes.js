@@ -1,21 +1,25 @@
-const express = require('express');
+const express = require("express");
+
+const authentication = require("../middleware/authentication");
+
+const authorization = require("../middleware/authorization");
+
 const router = express.Router();
 
-const { getOrders, getOrdersByUser, getOrderById, createOrder, updateOrder, deleteOrder
-} = require(
-  '../controllers/orderController'
-);
+const {
+  getOrders,
+  getOrdersByUser,
+  getOrderById,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+} = require("../controllers/orderController");
 
-const { verifyToken, verifyRole } 
-= require(
-  '../middleware/authMiddleware'
-);
-
-router.get('/', verifyToken, verifyRole('admin'), getOrders);
-router.get('/user/:userId', verifyToken, getOrdersByUser);
-router.post('/', verifyToken, createOrder);
-router.get('/:id', verifyToken, getOrderById);
-router.put('/:id', verifyToken, verifyRole('admin'), updateOrder);
-router.delete('/:id', verifyToken, verifyRole('admin'), deleteOrder);
+router.get("/", authentication, authorization("admin"), getOrders);
+router.get("/user/:userId", authentication, getOrdersByUser);
+router.post("/", authentication, createOrder);
+router.get("/:id", authentication, getOrderById);
+router.put("/:id", authentication, authorization("admin"), updateOrder);
+router.delete("/:id", authentication, authorization("admin"), deleteOrder);
 
 module.exports = router;
